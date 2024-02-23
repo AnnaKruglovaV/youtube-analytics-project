@@ -3,13 +3,16 @@ import os
 
 from googleapiclient.discovery import build
 
+
 class Channel:
     """Класс для ютуб-канала"""
+    api_key = os.getenv('API_KEY')
+
+    youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
         self.__channel_id = channel_id
-        self.youtube = build('youtube', 'v3', developerKey=os.getenv('API_KEY'))
         self.channel = self.youtube.channels().list(id=self.__channel_id, part='snippet,statistics').execute()
         self.info_channel = json.dumps(self.channel, indent=2, ensure_ascii=False)
         self.id = self.channel["items"][0]["id"]
@@ -71,8 +74,7 @@ class Channel:
 
     @classmethod
     def get_service(cls):
-        youtube = build('youtube', 'v3', developerKey=os.getenv('API_KEY'))
-        return youtube
+        return cls.youtube
 
     def to_json(self, file_json):
         json_data = {
