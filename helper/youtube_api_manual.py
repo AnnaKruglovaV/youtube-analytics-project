@@ -3,9 +3,11 @@ import os
 
 import isodate as isodate
 
+# необходимо установить через: pip install google-api-python-client
 from googleapiclient.discovery import build
 
 
+# YT_API_KEY скопирован из гугла и вставлен в переменные окружения
 api_key: str = os.getenv('YT_API_KEY')
 
 
